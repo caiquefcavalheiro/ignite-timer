@@ -5,9 +5,5 @@ interface ButtonProps {
 }
 
 export function Button({ variant }: ButtonProps) {
-  return (
-    <div>
-      <ButtonContainer variant={variant} />
-    </div>
-  );
+  return <ButtonContainer variant={variant}>Enviar</ButtonContainer>;
 }
