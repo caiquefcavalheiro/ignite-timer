@@ -48,12 +48,18 @@ export function Home() {
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
   useEffect(() => {
+    let interval: number
     if (activeCycle) {
-      setInterval(() => {
+      interval = setInterval(() => {
         setAmountSecondsPassed(
+          // Para o calculo de segundos não depender da potência do computador do usuário
           differenceInSeconds(new Date(), activeCycle.startDate),
         )
       }, 1000)
+    }
+    // quando executar o useEffect denovo, ele limpa a execução anterior
+    return () => {
+      clearInterval(interval)
     }
   }, [activeCycle])
 
@@ -69,6 +75,7 @@ export function Home() {
 
     setCycles((state) => [...state, newCycle])
     setActiveCycleId(id)
+    setAmountSecondsPassed(0)
 
     reset()
   }
@@ -82,6 +89,13 @@ export function Home() {
   // padStart adiciona caracteres em uma string até ela completar a quantidade necessária
   const minutes = String(minutesAmount).padStart(2, '0')
   const seconds = String(secondsAmount).padStart(2, '0')
+
+  useEffect(() => {
+    if (activeCycle) {
+      // Altera no titulo da aplicação no navegador o contador do timer
+      document.title = `${minutes}: ${seconds} - Ignite Timer`
+    }
+  }, [minutes, seconds, activeCycle])
 
   const task = watch('task')
   const isSubmitDisabled = !task
