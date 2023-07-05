@@ -21,7 +21,7 @@ export function CountDown() {
         // Para o calculo de segundos não depender da potência do computador do usuário
         const secondsDifference = differenceInSeconds(
           new Date(),
-          activeCycle.startDate,
+          new Date(activeCycle.startDate),
         )
         if (secondsDifference >= totalSeconds) {
           markCurrentCycleAsFinish()
